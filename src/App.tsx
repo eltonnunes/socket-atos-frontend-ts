@@ -44,6 +44,7 @@ export default function App() {
     });
   }, [io, sala, mensagens]);
 
+
   return (
     <>
       <h2>{meuId}</h2> - <pre>IDS: {idsConectados.length}</pre>
@@ -65,7 +66,8 @@ export default function App() {
       <input
         autoFocus
         value={novaMensagem}
-        onChange={e => setNovaMensagem(e.target.value)}
+        onChange={ e => setNovaMensagem( e.target.value )}
+        onKeyUp={ e => { e.keyCode === 13 && enviarMensagem() }}
       />
       <br />
       <br />
@@ -80,6 +82,7 @@ export default function App() {
           <br />
         </div>
       ))}
+
     </>
   );
 }
