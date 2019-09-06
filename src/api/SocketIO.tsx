@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import socketIOClient from 'socket.io-client'
 
-import { Config } from './enums/Config'
-import { Modulo } from './enums/Modulo'
-import { Acao } from './enums/Acao'
-import { ObjetoPadrao } from './types/ObjetoPadrao'
+import { Config } from '../enums/Config'
+import { Modulo } from '../enums/Modulo'
+import { Acao } from '../enums/Acao'
+import { ObjetoPadrao } from '../types/ObjetoPadrao'
 
-export default function App() {
+export default function SocketIO() {
   const [io] = useState(socketIOClient(Config.CODESENDBOX))
   const [mensagens, setMensagens] = useState<Array<string>>([])
   const [novaMensagem, setNovaMensagem] = useState<string>('')
@@ -84,49 +84,4 @@ export default function App() {
       }
     })
   }, [])
-
-  return (
-    <>
-      <h2>{meuId}</h2> - <pre>IDS: {idsConectados.length}</pre>
-      {!sala && (
-        <button onClick={() => io.emit('entrarSala', '1107')}>
-          Entrar na sala
-        </button>
-      )}
-      {sala && (
-        <button onClick={() => io.emit('sairSala', '1107')}>Sair da sal</button>
-      )}
-      <ul>
-        {mensagens.map((mensagem, index) => (
-          <li key={index}>{mensagem}</li>
-        ))}
-      </ul>
-      <input
-        autoFocus
-        value={novaMensagem}
-        onChange={e => setNovaMensagem(e.target.value)}
-        onKeyUp={e => {
-          e.keyCode === 13 && enviarMensagem()
-        }}
-      />
-      <br />
-      <br />
-      <button onClick={enviarMensagem}>Enviar</button>
-      <br />
-      <button onClick={enviarMensagemSala}>Enviar para sala</button>
-      <br />
-      {idsConectados.map((id, index) => (
-        <div key={index}>
-          <button onClick={() => enviarMensagemId(id)}>Enviar para {id}</button>
-
-          <br />
-        </div>
-      ))}
-      {/* <button onClick={acessarTelaDadosAcesso}>
-        Acessar tela de Dados de Acesso
-      </button> */}
-      <br />
-      <button onClick={solicitacaoServidor}>Solicitação servidor</button>
-    </>
-  )
 }
